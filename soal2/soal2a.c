@@ -58,7 +58,7 @@ int main()
     printf("Matriks :\n");
     for (int i=0; i<4; i++) {
         for (int j=0; j<6; j++) {
-        printf("%4d", hasil[i][j]);
+        printf("%d ", hasil[i][j]);
         }
         printf("\n");
     }
