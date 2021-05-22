@@ -4,7 +4,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <string.h>
-
+#include <unistd.h>
 
 struct index
 {
@@ -62,5 +62,16 @@ int main()
         }
         printf("\n");
     }
+    //update
+    key_t key = 1234;
+      int *value;
 
+      int shmid = shmget(key, sizeof(hasil), IPC_CREAT | 0666);
+      value = shmat(shmid, NULL, 0);
+
+      int* p = (int *)value;
+
+      memcpy(p, hasil, 80);
+
+      shmdt(value);
 }
