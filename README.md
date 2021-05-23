@@ -325,7 +325,9 @@ Di awal menggunakan fungsi share memory untuk menggunakan alamat memori yang sam
 
 ##### Kendala yang dialami
 *kesulitan dalam memahami menggunkan fungsi dan algoritma apa pada soal apa
+
 *tingkat soal yang lebih sulit dari materi dan contoh soal
+
 *sering error tidak jelas pada program
 
 ### soal 3
