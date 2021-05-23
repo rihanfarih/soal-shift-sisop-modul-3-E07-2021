@@ -56,6 +56,14 @@ Crypto (kamu) adalah teman Loba. Suatu pagi, Crypto melihat Loba yang sedang kew
 ##### 2a
 
 ```
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h> //library thread
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <string.h>
+#include <unistd.h>
+
 struct index
 {
     int i,j;
@@ -160,6 +168,15 @@ pada fungsi main di awal deklarasikan dulu share memory untuk digunakan pada soa
 ##### 2b
 
 ```
+#include <stdio.h>
+#include <pthread.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+
 int tes[24];
 int *value;
 pthread_t thread;
@@ -170,7 +187,11 @@ typedef struct index
   long long lama;
   long long baru;
 }indexnya;
+```
 
+Pertama deklarasikan dulu variabel global untuk memuat tes yaitu matriks penguji faktorial, thread untuk memproses, dan int pointer value untuk mengambil nilai dari jawaban 2a, dan struct indexnya lama untuk nilai dari soal 2a dan baru sebagai batas faktorial nya.
+
+```
 unsigned long long faktorial(unsigned long long x, int isi){
   unsigned long long hasil = x;
   if (x==1)
@@ -205,6 +226,8 @@ unsigned long long faktorial(unsigned long long x, int isi){
 }
 ```
 
+kemudian pada faktorial ini digunakan untuk menghitung nilai, isi sebagai berapa banyak angka faktorial pertama yang ingin didapatkan dan x sebagai matriks dari soal 2a yang akan digunakan.
+
 ```
 void *hitungfactorial(void* arg) {
 
@@ -228,6 +251,12 @@ void *hitungfactorial(void* arg) {
   
 }
 
+```
+
+Pada fungsi ini digunakan untuk memanggil fungsi faktorial untuk menghitung, dan di soal dituliskan jika data 0 maka memunculkan nilai 0, begitu pula pada batasnya. Kemudian fungsi indexnya digunakan untuk menunjuk index value yaitu lama untuk matriks pada soal 2a dan baru adalah matriks penguji faktorialnya yang berarti mengimbil berapa kali faktorial pertama dari matriks soal 2a, kemudian variabel hasil untuk memuat hasil dari proses faktorialnya.
+
+```
+
 void operasi(){
   for (int i = 0; i < 24; i++)
   {
@@ -247,6 +276,8 @@ void operasi(){
 }
 
 ```
+
+pada fungsi operasi digunakan untuk menghitung faktorial yang sudah dibuat dari 2 fungsi di atas, pointer lama digunakan untuk value dari hasil matriks 2a dan pointer bari tes adalah matriks pengujinya. Kemudian menjalankan fungsi thread dengan &thread di awal yang sudah didekrasikan dengan parameter NULL, dan menggunakan fungsi hitungfactorial sebagai argumen fungsi menghitung dan void pointer untuk menunjuk argumen nilai yang akan dioperasikan.
 
 ```
 int main() {
@@ -276,9 +307,18 @@ int main() {
 }
 ```
 
+Di awal menggunakan fungsi share memory untuk menggunakan alamat memori yang sama pada soal 2a  dan mengambil value yang merupakan hasil dari perkalian di soal 2a sehingga hasil perkalian matriks tadi bisa digunakan sebagai matriks A pada soal. Setelah itu menggunakan for loop untuk menginput array penguji faktorial nya atau pada soal disebut sebagai matriks B. Kemudian untuk mengecek apakah sudah menggunakan memori yang sama di sini saya menampilkan output dari matriks sebelumnya yang disimpan pada variabel value. Untuk menampilkan array yang lurus tadi menjadi matriks 4 x 6 maka saya menggunakan index i x 6+j agar sesuai dengan output pada soal 2a. setelah itu memanggil fungsi operasi untuk menjalankan faktorial yang diminta pada soal.
+
 ###### hasil:
 
-![nomor2a](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/2a.png)
+![nomor2a](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/2b.png)
 
 ##### 2c
+
+###### hasil:
+
 ##### Kendala yang dialami
+*kesulitan dalam memahami menggunkan fungsi dan algoritma apa pada soal apa
+*tingkat soal yang lebih sulit dari materi dan contoh soal
+*sering error tidak jelas pada program
+
