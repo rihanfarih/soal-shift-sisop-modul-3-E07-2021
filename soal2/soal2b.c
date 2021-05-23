@@ -12,27 +12,11 @@ int *value;
 pthread_t thread;
 int angka;
 
-typedef struct matriks
+typedef struct index
 {
   long long lama;
   long long baru;
-} index;
-
-void operasi(){
-  for (int i = 0; i < 24; i++)
-  {
-    if (i%6==0)
-    {
-      printf("\n");
-    }
-    index *pointer = (index*)malloc(sizeof(*pointer));
-    pointer->lama=value[i];
-    pointer->baru=tes[i];
-    pthread_create(&thread, NULL, factorial, (void*)pointer);
-    pthread_join(thread,NULL);
-  }
-  
-}
+}indexnya;
 
 int faktorial(int x, int isi){
   int hasil = x;
@@ -59,9 +43,9 @@ int faktorial(int x, int isi){
   return hasil;
 }
 
-void *factorial(void* arg) {
+void *hitungfactorial(void* arg) {
 
-  index *value = (index *)arg;
+  indexnya *value = (indexnya *)arg;
   int hasil;
 
   if (value->lama==0)
@@ -79,6 +63,24 @@ void *factorial(void* arg) {
   }
   
   
+}
+
+void operasi(){
+  for (int i = 0; i < 24; i++)
+  {
+    if (i%6==0)
+    {
+      printf("\n");
+    }
+    indexnya *pointer = (indexnya*)malloc(sizeof(*pointer));
+
+    pointer->lama=value[i];
+    pointer->baru=tes[i];
+
+    pthread_create(&thread, NULL, hitungfactorial, (void*)pointer);
+
+    pthread_join(thread,NULL);
+  }
 }
 
 int main() {
