@@ -11,18 +11,9 @@ struct index
     int i,j;
 };
 
-int MA[4][3] = {
-    {1, 2, 3},
-    {1, 2, 3},
-    {1, 2, 3},
-    {1, 2, 3}
-};
+int MA[4][3];
 
-int MB[3][6] = {
-    {1, 2, 3, 4, 5, 6},
-    {1, 2, 3, 4, 5, 6},
-    {1, 2, 3, 4, 5, 6}
-};
+int MB[3][6];
 
 int hasil[4][6];
 
@@ -35,9 +26,32 @@ void *operasi(void* arg){
     }
 }
 
+void inputmatriks(){
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            scanf("%d", &MA[i][j]);
+        }
+        
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 6; j++)
+        {
+            scanf("%d", &MB[i][j]);
+        }
+        
+    }
+    
+}
+
 int main()
 {
     pthread_t tid[4][6];
+
+    inputmatriks();
 
     for (int i=0; i<4; i++) {
         for (int j=0; j<6; j++) {
