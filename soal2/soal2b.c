@@ -29,16 +29,24 @@ int faktorial(int x, int isi){
     hasil *=((x-1));
   }
   else if(isi>x){
-    for (int a = 1; a < isi; a++)
-    {
-      if(x-a==0){
-        continue;
-      }
-      else if (x-a>0){
+    for (int a = 1; a < isi; a++){
+      {
         hasil *= (x-a);
       }
     }
-    
+  }
+  else{
+    for (int a = 0; a < isi; a++)
+    {
+      if (x-a==0)
+      {
+        continue;
+      }
+      else if (x-a>0)
+      {
+        hasil *=(x-a);
+      }
+    }
   }
   return hasil;
 }
@@ -101,7 +109,7 @@ int main() {
         printf("\n");
     }
 
-  printf("setelah faktorial:\n");
+  printf("\nsetelah faktorial:");
 
   operasi();
   printf("\n");
