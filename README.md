@@ -367,10 +367,82 @@ Opsi ini akan mengkategorikan seluruh file yang ada di working directory ketika 
 * (e) Setiap 1 file yang dikategorikan dioperasikan oleh 1 thread agar bisa berjalan secara paralel sehingga proses kategori bisa berjalan lebih cepat.
 
 #### jawaban
-##### 3a
-##### 3b
-##### 3c
-##### 3d
-##### 3e
-#### kendala dalam pengerjaan
+Source Code : 
+
+* (a) Program menerima opsi -f seperti contoh di atas, jadi pengguna bisa menambahkan argumen file yang bisa dikategorikan sebanyak yang diinginkan oleh pengguna. 
+```
+if(strcmp(argv[1],"-f")==0)
+    {
+        int index = 0;
+        for (int i = 2; i < argc; i++)
+        {
+        strcpy(args.ndir, argv[i]);
+        pthread_create(&tid[index], NULL, perintahf, (void *)&args);
+        sleep(1);
+        index++;
+        }
+        for (int i = 0; i < index; i++) {
+            pthread_join(tid[i], NULL);
+        }
+    }
+```
+Pada __-f__ di perlukan fungsi fmove dan perintahf untuk menjalankannya. Kemudian di fungsi main pthread_create dan pthread_join dibuat untuk setiap path yang diinputkan. 
+
+* (b) Program juga dapat menerima opsi -d untuk melakukan pengkategorian pada suatu directory. Namun pada opsi -d ini, user hanya bisa memasukkan input 1 directory saja, tidak seperti file yang bebas menginput file sebanyak mungkin. Pada kondisi ini digunakan strcmp untuk membandingkan argumen input apakah sesuai dengan argumen input yang diminta yaitu -d. Command -d akan dilaksanakan jika hanya memasukkan 1 path saja.
+
+```
+ else if(strcmp(argv[1],"-d")==0){
+        char ndir[max];
+        strcpy(ndir, argv[2]);
+        cek(ndir);
+```
+Pada __-d__ diperlukan fungsi fsmove dan perintahd.Selain itu, sebelum masuk ke fungsi-fungsi tersebut, folder yang ingin dikelompokkan terlebih dahulu dibaca file per filenya melalui fungsi cek, yaitu sebagai berikut :
+
+```
+...
+ while((entry = readdir(dirp)) != NULL) {
+        if(entry->d_type == DT_REG) {
+            char namaFile[305];
+
+            //strcat(namaFile, ndir);
+            //strcat(namaFile, entry->d_name);
+            sprintf(namaFile, "%s%s", ndir, entry->d_name);
+            strcpy(args.ndir, namaFile);
+
+            if(strcmp(namaFile, namaProgramIni) != 0) {
+                pthread_create(&tid[index], NULL, perintahd, (void *)&args);
+                printf("%s\n", namaFile);
+                sleep(1);
+                index++;
+            }
+        }
+    }
+...
+```
+
+
+* (c) Selain menerima opsi-opsi di atas, program ini menerima opsi *, Opsi ini akan mengkategorikan seluruh file yang ada di working directory ketika menjalankan program C tersebut.
+```
+...
+else if(strcmp(argv[1],"*")==0)
+    {
+        char ndir[] = "/home/sfayha/soal3/";
+        
+        cek(ndir);
+    }
+...
+```
+Pada kondisi ini fungsi yang diperlukan sama dengan proses -d, hanya saja, alamat folder yang dikirim adalah alamat current working directorynya.
+
+* (d) Semua file harus berada di dalam folder, jika terdapat file yang tidak memiliki ekstensi, file disimpan dalam folder “Unknown”. 
+* (e) Jika file hidden, masuk folder “Hidden”. Setiap 1 file yang dikategorikan dioperasikan oleh 1 thread agar bisa berjalan secara paralel sehingga proses kategori bisa berjalan lebih cepat.
+
+###### hasil:
+![-f](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/-f.png)
+![-d](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/-d.png)
+![*](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/*.png)
+
+###### Kendala:
+* Tingkat kesulitan soal sangat meningkat
+* Terjadi beberapa kali error segmentation fault dan missing files
 
