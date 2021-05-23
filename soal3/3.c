@@ -26,6 +26,53 @@ typedef struct arg_struct {
     char cwd[max];
 }arg_struct;
 
+int regularf(const char *path);
+void fmove(char *argv, char *cwd);
+void fsmove(char *argv, char *cwd);
+void *perintahd(void* arg);
+void *perintahf(void* arg);
+void cek(char *ndir); //recursive sort function
+
+int main(int argc, char* argv[]) 
+{ 
+
+    arg_struct args;
+    getcwd(args.cwd, sizeof(args.cwd));
+  
+    if(strcmp(argv[1],"-f")==0)
+    {
+        int index = 0;
+        for (int i = 2; i < argc; i++)
+        {
+        strcpy(args.ndir, argv[i]);
+        pthread_create(&tid[index], NULL, perintahf, (void *)&args);
+        sleep(1);
+        index++;
+        }
+        for (int i = 0; i < index; i++) {
+            pthread_join(tid[i], NULL);
+        }
+    }
+
+    else if(strcmp(argv[1],"-d")==0){
+        char ndir[max];
+        strcpy(ndir, argv[2]);
+        cek(ndir);
+    }
+
+    else if(strcmp(argv[1],"*")==0)
+    {
+        char ndir[] = "/home/sfayha/soal3/";
+        
+        cek(ndir);
+    }
+    else
+    {
+        printf("Argumen Salah\n");
+        return 0;
+    }
+        return 0; 
+} 
 //cek file or folder
 int regularf(const char *path)
 {
@@ -158,7 +205,7 @@ void *perintahf(void* arg){
 }
 
 
-void sortHere(char *ndir){
+void cek(char *ndir){
     arg_struct args;
     flag =1;
     
@@ -193,43 +240,4 @@ void sortHere(char *ndir){
     else printf("Direktori sudah disimpan\n");
 }
 
-int main(int argc, char* argv[]) 
-{ 
 
-    arg_struct args;
-    getcwd(args.cwd, sizeof(args.cwd));
-  
-    if(strcmp(argv[1],"-f")==0)
-    {
-        int index = 0;
-        for (int i = 2; i < argc; i++)
-        {
-        strcpy(args.ndir, argv[i]);
-        pthread_create(&tid[index], NULL, perintahf, (void *)&args);
-        sleep(1);
-        index++;
-        }
-        for (int i = 0; i < index; i++) {
-            pthread_join(tid[i], NULL);
-        }
-    }
-
-    else if(strcmp(argv[1],"-d")==0){
-        char ndir[max];
-        strcpy(ndir, argv[2]);
-        sortHere(ndir);
-    }
-
-    else if(strcmp(argv[1],"*")==0)
-    {
-        char ndir[] = "/home/sfayha/soal3/";
-        
-        sortHere(ndir);
-    }
-    else
-    {
-        printf("Argumen Salah\n");
-        return 0;
-    }
-        return 0; 
-} 
