@@ -4,6 +4,11 @@
 * Rihan farih bunyamin	05111940000165 
 * Fayha Syifa Qalbi   	05111940000185
 
+## Soal
+1. [soal1](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021#soal1)
+2. [soal2](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021#soal2)
+3. [soal3](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021#soal3)
+
 ### Soal 1
 Keverk adalah orang yang cukup ambisius dan terkenal di angkatannya. Sebelum dia menjadi ketua departemen di HMTC, dia pernah mengerjakan suatu proyek dimana keverk tersebut meminta untuk membuat server database buku. Proyek ini diminta agar dapat digunakan oleh pemilik aplikasi dan diharapkan bantuannya dari pengguna aplikasi ini. 
 
