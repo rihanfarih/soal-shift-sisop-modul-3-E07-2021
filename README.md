@@ -9,14 +9,41 @@ Keverk adalah orang yang cukup ambisius dan terkenal di angkatannya. Sebelum dia
 
 Di dalam proyek itu, Keverk diminta: 
 * (a) Pada saat client tersambung dengan server, terdapat dua pilihan pertama, yaitu register dan login. Jika memilih register, client akan diminta input id dan passwordnya untuk dikirimkan ke server. User juga dapat melakukan login. Login berhasil jika id dan password yang dikirim dari aplikasi client sesuai dengan list akun yang ada didalam aplikasi server. Sistem ini juga dapat menerima multi-connections. Koneksi terhitung ketika aplikasi client tersambung dengan server. Jika terdapat 2 koneksi atau lebih maka harus menunggu sampai client pertama keluar untuk bisa melakukan login dan mengakses aplikasinya. Keverk menginginkan lokasi penyimpanan id dan password pada file bernama akun.txt dengan format :
-
+```
 akun.txt
 id:password
 id2:password2
-
+```
 
 * (b)Sistem memiliki sebuah database yang bernama files.tsv. Isi dari files.tsv ini adalah path file saat berada di server, publisher, dan tahun publikasi. Setiap penambahan dan penghapusan file pada folder file yang bernama  FILES pada server akan memengaruhi isi dari files.tsv. Folder FILES otomatis dibuat saat server dijalankan. 
-* (c) .......
+* (c) Tidak hanya itu, Keverk juga diminta membuat fitur agar client dapat menambah file baru ke dalam server. Direktori FILES memiliki struktur direktori kemudian , dari aplikasi client akan dimasukan data buku tersebut (perlu diingat bahwa Filepath ini merupakan path file yang akan dikirim ke server). Lalu client nanti akan melakukan pengiriman file ke aplikasi server dengan menggunakan socket. Ketika file diterima di server, maka row dari files.tsv akan bertambah sesuai dengan data terbaru yang 
+ditambahkan.
+* (d) Dan client dapat mendownload file yang telah ada dalam folder FILES di server, sehingga sistem harus dapat mengirim file ke client. Server harus melihat dari files.tsv untuk melakukan pengecekan apakah file tersebut valid. Jika tidak valid, maka mengirimkan pesan error balik ke client. Jika berhasil, file akan dikirim dan akan diterima ke client di folder client tersebut. 
+* (e) Setelah itu, client juga dapat menghapus file yang tersimpan di server. Akan tetapi, Keverk takut file yang dibuang adalah file yang penting, maka file hanya akan diganti namanya menjadi ‘old-NamaFile.ekstensi’. Ketika file telah diubah namanya, maka row dari file tersebut di file.tsv akan terhapus.
+* (f) Client dapat melihat semua isi files.tsv dengan memanggil suatu perintah yang bernama see. Output dari perintah tersebut keluar dengan format
+```  
+Nama:
+Publisher:
+Tahun publishing:
+Ekstensi File : 
+Filepath : 
+
+Nama:
+Publisher:
+Tahun publishing:
+Ekstensi File : 
+Filepath : 
+
+```
+* (g) Aplikasi client juga dapat melakukan pencarian dengan memberikan suatu string. Hasilnya adalah semua nama file yang mengandung string tersebut. Format output seperti format output
+*  (h) Dikarenakan Keverk waspada dengan pertambahan dan penghapusan file di server, maka Keverk membuat suatu log untuk server yang bernama running.log. Contoh isi dari log ini adalah
+
+```
+Tambah : File1.ektensi (id:pass)
+Hapus : File2.ektensi (id:pass)
+
+```
+
 
 
 ### soal 2
@@ -111,15 +138,21 @@ int main()
 ```
 ###### hasil:
 ##### 2b
+
 ```
+int tes[24];
+int *value;
+pthread_t thread;
+int angka;
+
 typedef struct index
 {
   long long lama;
   long long baru;
 }indexnya;
 
-int faktorial(int x, int isi){
-  int hasil = x;
+unsigned long long faktorial(unsigned long long x, int isi){
+  unsigned long long hasil = x;
   if (x==1)
   {
     return 1;
@@ -129,14 +162,14 @@ int faktorial(int x, int isi){
     hasil *=((x-1));
   }
   else if(isi>x){
-    for (int a = 1; a < isi; a++){
+    for (long long a = 1; a < isi; a++){
       {
         hasil *= (x-a);
       }
     }
   }
   else{
-    for (int a = 0; a < isi; a++)
+    for (long long a = 0; a < isi; a++)
     {
       if (x-a==0)
       {
@@ -151,11 +184,12 @@ int faktorial(int x, int isi){
   return hasil;
 }
 ```
+
 ```
 void *hitungfactorial(void* arg) {
 
   indexnya *value = (indexnya *)arg;
-  int hasil;
+  unsigned long long hasil;
 
   if (value->lama==0)
   {
@@ -168,7 +202,7 @@ void *hitungfactorial(void* arg) {
   else
   {
     hasil = faktorial(value->lama,value->baru);
-    printf("%d\t",hasil);
+    printf("%llu\t",hasil);
   }
   
   
@@ -191,7 +225,9 @@ void operasi(){
     pthread_join(thread,NULL);
   }
 }
+
 ```
+
 ```
 int main() {
   key_t key = 1234;
@@ -219,6 +255,7 @@ int main() {
   shmdt(value);
 }
 ```
+
 ###### hasil:
 ##### 2c
 ##### Kendala yang dialami
