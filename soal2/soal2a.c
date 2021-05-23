@@ -12,9 +12,7 @@ struct index
 };
 
 int MA[4][3];
-
 int MB[3][6];
-
 int hasil[4][6];
 
 void *operasi(void* arg){
@@ -49,6 +47,12 @@ void inputmatriks(){
 
 int main()
 {
+        //update
+    key_t key = 1234;
+      int *value;
+
+      int shmid = shmget(key, sizeof(hasil)*6*4, IPC_CREAT | 0666);
+      value = shmat(shmid, NULL, 0);
     pthread_t tid[4][6];
 
     inputmatriks();
@@ -73,19 +77,11 @@ int main()
     for (int i=0; i<4; i++) {
         for (int j=0; j<6; j++) {
         printf("%d ", hasil[i][j]);
+        value[i*6+j]=hasil[i][j];
         }
         printf("\n");
     }
-    //update
-    key_t key = 1234;
-      int *value;
-
-      int shmid = shmget(key, sizeof(hasil), IPC_CREAT | 0666);
-      value = shmat(shmid, NULL, 0);
-
-      int* p = (int *)value;
-
-      memcpy(p, hasil, 80);
-
       shmdt(value);
+      
+      return 0;
 }
