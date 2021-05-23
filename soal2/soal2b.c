@@ -18,8 +18,8 @@ typedef struct index
   long long baru;
 }indexnya;
 
-int faktorial(int x, int isi){
-  int hasil = x;
+unsigned long long faktorial(unsigned long long x, int isi){
+  unsigned long long hasil = x;
   if (x==1)
   {
     return 1;
@@ -29,14 +29,14 @@ int faktorial(int x, int isi){
     hasil *=((x-1));
   }
   else if(isi>x){
-    for (int a = 1; a < isi; a++){
+    for (long long a = 1; a < isi; a++){
       {
         hasil *= (x-a);
       }
     }
   }
   else{
-    for (int a = 0; a < isi; a++)
+    for (long long a = 0; a < isi; a++)
     {
       if (x-a==0)
       {
@@ -54,7 +54,7 @@ int faktorial(int x, int isi){
 void *hitungfactorial(void* arg) {
 
   indexnya *value = (indexnya *)arg;
-  int hasil;
+  unsigned long long hasil;
 
   if (value->lama==0)
   {
@@ -67,7 +67,7 @@ void *hitungfactorial(void* arg) {
   else
   {
     hasil = faktorial(value->lama,value->baru);
-    printf("%d\t",hasil);
+    printf("%llu\t",hasil);
   }
   
   
