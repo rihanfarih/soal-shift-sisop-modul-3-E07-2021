@@ -54,6 +54,7 @@ Crypto (kamu) adalah teman Loba. Suatu pagi, Crypto melihat Loba yang sedang kew
 
 #### Jawab
 ##### 2a
+
 ```
 struct index
 {
@@ -63,7 +64,11 @@ struct index
 int MA[4][3];
 int MB[3][6];
 int hasil[4][6];
+```
 
+Pertama deklarasikan dulu variabel global untuk memuat matriks A, B, dan hasil dari perkalian sekaligus struct untuk menunjuk index arraynya nanti.
+
+```
 void *operasi(void* arg){
     int i =((struct index*)arg)->i;
     int j =((struct index*)arg)->j;
@@ -72,6 +77,12 @@ void *operasi(void* arg){
         hasil[i][j] += MA[i][x] * MB[x][j];
     }
 }
+
+```
+
+pada fungsi operasi digunakan untuk memproses perkalian dari matariks A dan B menggunakan for dan dimasukkan ke array hasil. menggunakan fungsi struct dan argumen untuk menunjuk alamat array yang akan dioperasikan. Fungsi ini juga berguna pada proses thread sebagai argumen fungsi yang dijalankan.
+
+```
 
 void inputmatriks(){
     for (int i = 0; i < 4; i++)
@@ -94,6 +105,9 @@ void inputmatriks(){
     
 }
 ```
+
+kemudian fungsi input matriks sesuai pada soal yaitu array dimasukkan pada program sehingga meminta kita untuk menginput fungsi pada program saat dijalankan. Pada for di loop pertama dan cabangnya berfungsi untuk input nilai pada matriks A dan pada for kedua digunakan utuk menginput nilai pada matriks B.
+
 ```
 int main()
 {
@@ -136,7 +150,13 @@ int main()
       return 0;
 }
 ```
+
+pada fungsi main di awal deklarasikan dulu share memory untuk digunakan pada soal 2b. kemudian pthread digunakan untuk memproses hasil perkalian menggunakan thread sesuai dengan matriks hasil perkaliannya. Setelah itu dijalan fungsi inputmatriks untuk untuk menginput matriks A dan B, dengan menggunakan for disesuaikan dengan bentuk matriks hasilnya menggunakan struct index untuk menunjuk index matriks pada array dan menggunakan fungsi pthread join dengan tid yang sudah disesuaikan dan menggunakan fungsi operasi sebagai argumen fungsi juga void ke untuk argumen pada fungsi operasi sebagai nilai. Kemudian di akhir menampilkan hasil perkalian matriks dan memasukkan ke variabel pointer value agar dapat digunakan pada soal 2b sebagai jawaban dari share memory.
+
 ###### hasil:
+
+![nomor2a](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/2a.png)
+
 ##### 2b
 
 ```
@@ -257,5 +277,8 @@ int main() {
 ```
 
 ###### hasil:
+
+![nomor2a](https://github.com/rihanfarih/soal-shift-sisop-modul-3-E07-2021/blob/main/Screenshots/2a.png)
+
 ##### 2c
 ##### Kendala yang dialami
